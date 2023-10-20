@@ -1,19 +1,19 @@
-sausagemail.com 3600 IN SOA ns1.sausagemail.com steve.blighty.com. 2023102014 10800 3600 2592000 600
+sausagemail.com 3600 IN SOA ns1.sausagemail.com steve.blighty.com. 2023102019 10800 3600 2592000 600
 
 ; Our actual bounce handler and reply handler
 bounces.sausagemail.com 3600 IN A 10.11.12.13
 replies.sausagemail.com 3600 IN A 10.11.12.14
 
 ; Our DKIM public key
-k1._dkim.sausagemail.com    3600 IN TXT "v=dkim1; k=RSA; p=key-goes-here"
-k2._dkim.sausagemail.com    3600 IN TXT "v=dkim1; k=RSA; p=other-key-goes-here"
+k1._dkim.sausagemail.com    3600 IN TXT "v=DKIM1; k=RSA; p=key-goes-here"
+k2._dkim.sausagemail.com    3600 IN TXT "v=DKIM1; k=RSA; p=other-key-goes-here"
 
 ; Our SPF stuff
-_spf.sausagemail.com 3600 IN TXT "v=sp1 ip4:10.11.12.10 ~all"
+_spf.sausagemail.com 3600 IN TXT "v=spf1 ip4:10.11.12.10 ~all"
 
 ; Per-customer generation
 ; DKIM public keys
-(?P<selector>)\._domainkey\.(?P<customer>[^.]+)\.sausagemail\.com 3600 IN CNAME ${selector}._dkim.sausagemail.com
+(?P<selector>[^.]+)\._domainkey\.(?P<customer>[^.]+)\.sausagemail\.com 3600 IN CNAME ${selector}._dkim.sausagemail.com
 
 ; Return path, point to bounce handler
 bounces\.(?P<customer>[^.]+)\.sausagemail\.com 3600 IN MX 10 bounces.sausagemail.com
@@ -25,5 +25,5 @@ bounces\.(?P<customer>[^.]+)\.sausagemail\.com 3600 IN TXT "v=spf1 include:_spf.
 (?P<customer>[^.]+)\.sausagemail\.com 3600 IN MX 10 replies.sausagemail.com
 
 ; And DMARC, because why not?
-_dmarc\,(?P<customer>[^.]+)\.sausagemail\.com 3600 IN TXT "v=DMARC1 p=none rua=rua+${customer}@sasuagemail.com"
+_dmarc\.(?P<customer>[^.]+)\.sausagemail\.com 3600 IN TXT "v=DMARC1 p=none rua=rua+${customer}@sausagemail.com"
 

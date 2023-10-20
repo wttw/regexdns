@@ -1,6 +1,16 @@
 # regexdns
 A PowerDNS pipe backend to serve responses based on regular expression matches.
 
+## Why?
+
+Sometimes you want to create a lot of DNS records in a way that's a bit more flexible
+than DNS wildcards, but you don't want to have to pregenerate huge zone files every time
+some data changes.
+
+The particular case I was thinking of was an ESP providing customer-specific hostnames for
+customers too small to own their own domains, and needing a way of providing authentication
+records for all of them, as I [discussed on our blog](https://wordtothewise.com/2023/10/customer-subdomain-authentication/).
+
 ## Usage
 
 Add the `pipe` backend to the `launch=` PowerDNS parameter, after the more normal backends, e.g. `launch=bind,pipe`
