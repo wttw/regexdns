@@ -3,11 +3,12 @@ A PowerDNS pipe backend to serve responses based on regular expression matches.
 
 ## Usage
 
-Add the `pipe` backend to the `launch=` PowerDNS parameter, after the more normal backends.
+Add the `pipe` backend to the `launch=` PowerDNS parameter, after the more normal backends, e.g. `launch=bind,pipe`
 
-Set `zone-cache-refresh-interval=0` - the pipe backend doesn't support listing all supported zones.
+Set `zone-cache-refresh-interval=0` - the pipe backend doesn't support listing all supported zones. Older versions
+of PowerDNS may not support this setting.
 
-Set `pipe-command="/path/to/regexdns --config /path/to/regexdns/zone/file""`
+Set `pipe-command=/path/to/regexdns --config /path/to/regexdns/zone/file`
 
 ## Configuration
 
