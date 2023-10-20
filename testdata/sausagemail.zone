@@ -1,0 +1,24 @@
+; Regular record
+wurst1.com           3600 IN TXT "hello"
+
+; Regex match, static expansion
+wurst2.com 3600 IN SOA ns1.ultradns.net. steve.blighty.com. 2015051107 10800 3600 2592000 600
+[^.]+\.wurst2\.com   3600 IN MX 10 replies.sausagemail.com
+
+; Regex match, dynamic expansion
+([^.]+)\.wurst3\.com 3600 IN MX 20 $1.sausagemail.com
+
+; Named regex match, dynamic expansion
+(?P<customer>[^.]+)\.wurst4\.com  3600 IN MX 30 ${customer}.sausagemail.com
+
+; Multiple submatches, one replacement
+(?P<selector>[^.]+)\._domainkey\.(?P<customer>[^.]+)\.wurst5\.com 3600 IN CNAME ${selector}.dkim.sausagemail.com
+
+; Multiple submatches, multiple replacements
+(?P<first>[^.]+)\.(?P<second>[^.]+)\.wurst6\.com 3600 IN CNAME ${second}.${first}.sausagemail.com
+
+; Multiple records
+wurst7.com 3600 IN SOA ns1.ultradns.net. steve.blighty.com. 2015051107 10800 3600 2592000 600
+([^.]+)\.wurst7.com 3600 IN TXT "Hello $1"
+([^.]+)\.wurst7.com 3600 IN MX 40 $1.sausagemail.com
+
